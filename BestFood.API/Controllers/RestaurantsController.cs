@@ -104,5 +104,18 @@ namespace BestFood.API.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteRestaurant(int id)
+        {
+            var restaurant = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == id);
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            RestaurantsStore.Current.Restaurants.Remove(restaurant);
+            return NoContent();
+        }
+
     }
 }
