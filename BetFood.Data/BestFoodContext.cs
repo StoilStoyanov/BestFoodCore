@@ -13,7 +13,7 @@ namespace BetFood.Data
         public BestFoodContext(DbContextOptions<BestFoodContext> options)
             : base(options)
         {
-            Database.Migrate ();
+            Database.Migrate();
         }
 
         public DbSet<Restaurant> Restaurants { get; set; }

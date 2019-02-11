@@ -36,6 +36,11 @@ namespace BestFood.API
         {
             if (env.IsDevelopment())
             {
+                using (var scope = app.ApplicationServices.CreateScope())
+                using (var context = scope.ServiceProvider.GetRequiredService<BestFoodContext>())
+                {
+                    DbInitializer.Seed(context);
+                }
                 app.UseDeveloperExceptionPage();
             } 
 
