@@ -14,8 +14,29 @@ namespace BetFood.Data
         {
             this.Restaurants = new List<RestaurantDto>()
             {
-                new RestaurantDto { Id=1, Name="65 Fireflies"},
-                new RestaurantDto { Id=2, Name="Rocket"}
+                new RestaurantDto
+                {
+                    Id = 1,
+                    Name = "65 Fireflies",
+                    Specialties = new List<SpecialtyDto>()
+                    {
+                        new SpecialtyDto()
+                        {
+                            Id = 1,
+                            Name = "Glühwein"
+                        },
+                        new SpecialtyDto()
+                        {
+                            Id = 2,
+                            Name = "Radeberger"
+                        }
+                    }
+                },
+                new RestaurantDto
+                {
+                    Id = 2,
+                    Name = "Rocket"
+                }
             };
         }
     }

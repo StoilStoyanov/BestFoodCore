@@ -13,9 +13,21 @@ namespace BestFood.API.Controllers
     public class RestaurantsController: ControllerBase
     {
         [HttpGet]
-        public JsonResult GetRestaurants()
+        public IActionResult GetRestaurants()
         {
-            return new JsonResult(RestaurantsStore.Current.Restaurants);
+            return Ok(RestaurantsStore.Current.Restaurants);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetRestaurant(int id)
+        {
+            var res = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == id);
+            if (res == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(res);
         }
     }
 }

@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BestFood.DTOs
 {
-    public class RestaurantDto
+    public class SpecialtyDto
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        public ICollection<SpecialtyDto> Specialties { get; set; } = new List<SpecialtyDto>();
     }
 }
