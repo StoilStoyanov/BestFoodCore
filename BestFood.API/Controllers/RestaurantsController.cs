@@ -15,10 +15,12 @@ namespace BestFood.API.Controllers
     public class RestaurantsController: ControllerBase
     {
         private ILogger<RestaurantsController> _logger;
+        private BestFoodContext _ctx;
 
-        public RestaurantsController(ILogger<RestaurantsController> logger)
+        public RestaurantsController(ILogger<RestaurantsController> logger, BestFoodContext ctx)
         {
             _logger = logger;
+            _ctx = ctx;
         }
 
         [HttpGet]
