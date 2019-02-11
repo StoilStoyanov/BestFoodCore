@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BestFood.DTOs", "BestFood.D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{648D01A5-A28B-4449-A506-C0BF5A71410D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFood.Data", "BetFood.Data\BetFood.Data.csproj", "{B7683327-1B38-4233-8B2F-28ACDB1EB90A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFood.Data", "BetFood.Data\BetFood.Data.csproj", "{B7683327-1B38-4233-8B2F-28ACDB1EB90A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestFood.Entities", "BestFood.Entities\BestFood.Entities.csproj", "{FCF13F8A-E035-4032-8E1E-C11DC3911A9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BestFood.Entities", "BestFood.Entities\BestFood.Entities.csproj", "{FCF13F8A-E035-4032-8E1E-C11DC3911A9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestFood.Services", "BestFood.Services\BestFood.Services.csproj", "{16D09A56-CE7D-49DC-879D-9A319FED50D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{FCF13F8A-E035-4032-8E1E-C11DC3911A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCF13F8A-E035-4032-8E1E-C11DC3911A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCF13F8A-E035-4032-8E1E-C11DC3911A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16D09A56-CE7D-49DC-879D-9A319FED50D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16D09A56-CE7D-49DC-879D-9A319FED50D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16D09A56-CE7D-49DC-879D-9A319FED50D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16D09A56-CE7D-49DC-879D-9A319FED50D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{5564BE6E-4554-4C31-BE67-09AC47AD3A67} = {648D01A5-A28B-4449-A506-C0BF5A71410D}
 		{B7683327-1B38-4233-8B2F-28ACDB1EB90A} = {648D01A5-A28B-4449-A506-C0BF5A71410D}
 		{FCF13F8A-E035-4032-8E1E-C11DC3911A9B} = {648D01A5-A28B-4449-A506-C0BF5A71410D}
+		{16D09A56-CE7D-49DC-879D-9A319FED50D1} = {648D01A5-A28B-4449-A506-C0BF5A71410D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9DC0E0D-084B-433C-8DB4-41414C640CB3}

@@ -1,4 +1,5 @@
 ﻿using BestFood.DTOs;
+using BestFood.Services.Interfaces;
 using BetFood.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,34 +13,23 @@ namespace BestFood.API.Controllers
     [ApiController]
     public class SpecialtiesController : ControllerBase
     {
+        private readonly IRestaurantService _restaurantService;
+
+        public SpecialtiesController(IRestaurantService restaurantService)
+        {
+            _restaurantService = restaurantService;
+        }
+
         [HttpGet("{restaurantId}/specialties")]
         public IActionResult GetRestaurant(int restaurantId)
         {
-            var restaurant = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == restaurantId);
+            var restaurant = _restaurantService.GetById(restaurantId);
             if (restaurant == null)
             {
                 return NotFound();
             }
 
             return Ok(restaurant.Specialties);
-        }
-
-        [HttpGet("{restaurantId}/specialties/{specialtyId}")]
-        public IActionResult GetRestaurant(int restaurantId, int specialtyId)
-        {
-            var restaurant = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == restaurantId);
-            if (restaurant == null)
-            {
-                return NotFound();
-            }
-
-            var specialty = restaurant.Specialties.FirstOrDefault(x => x.Id == specialtyId);
-            if (specialty == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(specialty);
         }
     }
 }

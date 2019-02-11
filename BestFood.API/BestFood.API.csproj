@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BestFood.DTOs\BestFood.DTOs.csproj" />
+    <ProjectReference Include="..\BestFood.Services\BestFood.Services.csproj" />
     <ProjectReference Include="..\BetFood.Data\BetFood.Data.csproj" />
   </ItemGroup>
 

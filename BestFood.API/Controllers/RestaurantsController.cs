@@ -1,4 +1,5 @@
 ﻿using BestFood.DTOs;
+using BestFood.Services.Interfaces;
 using BetFood.Data;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -14,26 +15,26 @@ namespace BestFood.API.Controllers
     [ApiController]
     public class RestaurantsController: ControllerBase
     {
-        private ILogger<RestaurantsController> _logger;
-        private BestFoodContext _ctx;
+        private readonly ILogger<RestaurantsController> _logger;
+        private readonly IRestaurantService _restaurantService;
 
-        public RestaurantsController(ILogger<RestaurantsController> logger, BestFoodContext ctx)
+        public RestaurantsController(ILogger<RestaurantsController> logger, IRestaurantService restaurantService)
         {
             _logger = logger;
-            _ctx = ctx;
+            _restaurantService = restaurantService;
         }
 
         [HttpGet]
         public IActionResult GetRestaurants()
         {
             _logger.LogInformation("GetRestaurants invoked");
-            return Ok(RestaurantsStore.Current.Restaurants);
+            return Ok(_restaurantService.GetAll());
         }
 
         [HttpGet("{id}", Name = "GetRestaurant")]
         public IActionResult GetRestaurant(int id)
         {
-            var res = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == id);
+            var res = _restaurantService.GetById(id);
             if (res == null)
             {
                 return NotFound();
@@ -50,14 +51,7 @@ namespace BestFood.API.Controllers
                 return BadRequest();
             }
 
-            var maxRestaurantId = RestaurantsStore.Current.Restaurants.Max(x => x.Id);
-            var newRestaurant = new RestaurantDto()
-            {
-                Id = ++maxRestaurantId,
-                Name = dto.Name
-            };
-
-            RestaurantsStore.Current.Restaurants.Add(newRestaurant);
+            var newRestaurant = _restaurantService.AddNew(dto);
             return CreatedAtRoute("GetRestaurant", new { id = newRestaurant.Id }, newRestaurant);
         }
 
@@ -69,15 +63,11 @@ namespace BestFood.API.Controllers
                 return BadRequest();
             }
 
-            var restaurant = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == dto.Id);
-
-            if (restaurant == null)
+            var success = _restaurantService.Update(dto);
+            if(!success)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-            restaurant.Name = dto.Name;
-            restaurant.Specialties = dto.Specialties;
 
             return NoContent();
         }
@@ -89,27 +79,38 @@ namespace BestFood.API.Controllers
             {
                 return BadRequest();
             }
-            
-            var restaurant = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == id);
+
+            var restaurant = _restaurantService.GetById(id);
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            var restaurantDto = new RestaurantUpdateDto()
+            var updateDto = new RestaurantUpdateDto()
             {
                 Name = restaurant.Name,
-                Specialties = restaurant.Specialties
+                Specialties = restaurant.Specialties.Select(x => new SpecialtyDto()
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList()
             };
-
-            patchDoc.ApplyTo(restaurantDto, ModelState);
+            patchDoc.ApplyTo(updateDto, ModelState);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            restaurant.Name = restaurantDto.Name;
-            restaurant.Specialties = restaurantDto.Specialties;
+            var dto = new RestaurantDto()
+            {
+                Name = updateDto.Name,
+                Specialties = updateDto.Specialties
+            };
+            var result = _restaurantService.Update(dto);
+            if (!result)
+            {
+                return BadRequest();
+            }
 
             return NoContent();
         }
@@ -117,13 +118,12 @@ namespace BestFood.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteRestaurant(int id)
         {
-            var restaurant = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == id);
-            if (restaurant == null)
+            var success = _restaurantService.Delete(id);
+            if (!success)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            RestaurantsStore.Current.Restaurants.Remove(restaurant);
             return NoContent();
         }
 
