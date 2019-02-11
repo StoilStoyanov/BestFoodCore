@@ -34,6 +34,11 @@ namespace BestFood.API.Controllers
         [HttpPost]
         public IActionResult CreateRestaurant([FromBody] RestaurantCreateDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var maxRestaurantId = RestaurantsStore.Current.Restaurants.Max(x => x.Id);
             var newRestaurant = new RestaurantDto()
             {
