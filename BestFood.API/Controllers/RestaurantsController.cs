@@ -18,7 +18,7 @@ namespace BestFood.API.Controllers
             return Ok(RestaurantsStore.Current.Restaurants);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetRestaurant")]
         public IActionResult GetRestaurant(int id)
         {
             var res = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == id);
@@ -28,6 +28,21 @@ namespace BestFood.API.Controllers
             }
 
             return Ok(res);
+        }
+
+
+        [HttpPost]
+        public IActionResult CreateRestaurant([FromBody] RestaurantCreateDto dto)
+        {
+            var maxRestaurantId = RestaurantsStore.Current.Restaurants.Max(x => x.Id);
+            var newRestaurant = new RestaurantDto()
+            {
+                Id = ++maxRestaurantId,
+                Name = dto.Name
+            };
+
+            RestaurantsStore.Current.Restaurants.Add(newRestaurant);
+            return CreatedAtRoute("GetRestaurant", new { id = newRestaurant.Id }, newRestaurant);
         }
     }
 }
