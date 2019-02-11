@@ -1,5 +1,6 @@
 ﻿using BestFood.DTOs;
 using BetFood.Data;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,38 @@ namespace BestFood.API.Controllers
 
             restaurant.Name = dto.Name;
             restaurant.Specialties = dto.Specialties;
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult PartiallyUpdateRestaurant(int id, [FromBody] JsonPatchDocument<RestaurantUpdateDto> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                return BadRequest();
+            }
+            
+            var restaurant = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == id);
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            var restaurantDto = new RestaurantUpdateDto()
+            {
+                Name = restaurant.Name,
+                Specialties = restaurant.Specialties
+            };
+
+            patchDoc.ApplyTo(restaurantDto, ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            restaurant.Name = restaurantDto.Name;
+            restaurant.Specialties = restaurantDto.Specialties;
 
             return NoContent();
         }
