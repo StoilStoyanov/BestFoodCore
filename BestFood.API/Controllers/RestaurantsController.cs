@@ -49,5 +49,27 @@ namespace BestFood.API.Controllers
             RestaurantsStore.Current.Restaurants.Add(newRestaurant);
             return CreatedAtRoute("GetRestaurant", new { id = newRestaurant.Id }, newRestaurant);
         }
+
+        [HttpPut]
+        public IActionResult UpdateRestaurant([FromBody] RestaurantDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var restaurant = RestaurantsStore.Current.Restaurants.FirstOrDefault(x => x.Id == dto.Id);
+
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            restaurant.Name = dto.Name;
+            restaurant.Specialties = dto.Specialties;
+
+            return NoContent();
+        }
+
     }
 }
