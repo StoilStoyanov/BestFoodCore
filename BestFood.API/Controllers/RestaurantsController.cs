@@ -2,6 +2,7 @@
 using BetFood.Data;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,17 @@ namespace BestFood.API.Controllers
     [ApiController]
     public class RestaurantsController: ControllerBase
     {
+        private ILogger<RestaurantsController> _logger;
+
+        public RestaurantsController(ILogger<RestaurantsController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpGet]
         public IActionResult GetRestaurants()
         {
+            _logger.LogInformation("GetRestaurants invoked");
             return Ok(RestaurantsStore.Current.Restaurants);
         }
 
@@ -30,7 +39,6 @@ namespace BestFood.API.Controllers
 
             return Ok(res);
         }
-
 
         [HttpPost]
         public IActionResult CreateRestaurant([FromBody] RestaurantCreateDto dto)
