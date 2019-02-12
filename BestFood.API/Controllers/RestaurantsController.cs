@@ -1,4 +1,5 @@
 ﻿using BestFood.DTOs;
+using BestFood.Entities;
 using BestFood.Services.Interfaces;
 using BetFood.Data;
 using Microsoft.AspNetCore.JsonPatch;
@@ -25,6 +26,7 @@ namespace BestFood.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(ICollection<Restaurant>), 200)]
         public IActionResult GetRestaurants()
         {
             _logger.LogInformation("GetRestaurants invoked");
