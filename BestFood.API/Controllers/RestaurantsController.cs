@@ -30,7 +30,6 @@ namespace BestFood.API.Controllers
         [ProducesResponseType(typeof(ICollection<Restaurant>), 200)]
         public IActionResult GetRestaurants()
         {
-            _logger.LogInformation("GetRestaurants invoked");
             return Ok(_restaurantService.GetAll());
         }
 

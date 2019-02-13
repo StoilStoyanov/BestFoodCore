@@ -1,4 +1,5 @@
 ﻿using BestFood.DTOs;
+using BestFood.Entities;
 using BestFood.Services.Interfaces;
 using BetFood.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace BestFood.API.Controllers
         }
 
         [HttpGet("{restaurantId}/specialties")]
+				[ProducesResponseType(typeof(ICollection<Specialty>), 200)]
         public IActionResult GetRestaurant(int restaurantId)
         {
             var restaurant = _restaurantService.GetById(restaurantId);

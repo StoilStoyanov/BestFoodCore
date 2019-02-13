@@ -2,12 +2,15 @@
 using BestFood.Services.Interfaces;
 using BetFood.Data;
 using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Formatter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Linq;
 
 namespace BestFood.API
 {
@@ -31,6 +34,19 @@ namespace BestFood.API
 			services.AddDbContext<BestFoodContext>(x => x.UseSqlServer(connetionString));
 
 			services.AddOData();
+			// Fixes swagger.json generation. Workaround: https://github.com/OData/WebApi/issues/1177
+			services.AddMvcCore(options =>
+			{
+				foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+				{
+					outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+				}
+				foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+				{
+					inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+				}
+			});
+
 			services.AddTransient<EdmModelBuilder>();
 			services.AddScoped<IRestaurantService, RestaurantService>();
 
