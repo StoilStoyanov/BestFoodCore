@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -118,7 +119,7 @@ namespace BestFood.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRestaurant(int id)
+        public IActionResult DeleteRestaurant([Required]int id)
         {
             var success = _restaurantService.Delete(id);
             if (!success)
