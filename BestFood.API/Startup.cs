@@ -1,6 +1,7 @@
 ﻿using BestFood.Services;
 using BestFood.Services.Interfaces;
 using BetFood.Data;
+using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Formatter;
 using Microsoft.AspNetCore.Builder;
@@ -32,8 +33,9 @@ namespace BestFood.API
 					options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 			var connetionString = Configuration["connectionStrings:bestFoodDBConnectionString"];
 			services.AddDbContext<BestFoodContext>(x => x.UseSqlServer(connetionString));
-
-			services.AddOData();
+			
+      services.AddApiVersioning();
+      services.AddOData().EnableApiVersioning();
 			// Fixes swagger.json generation. Workaround: https://github.com/OData/WebApi/issues/1177
 			services.AddMvcCore(options =>
 			{
@@ -58,7 +60,7 @@ namespace BestFood.API
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, EdmModelBuilder modelBuilder)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, VersionedODataModelBuilder modelBuilder)
 		{
 			if (env.IsDevelopment())
 			{
@@ -79,10 +81,11 @@ namespace BestFood.API
 			{
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
 			});
-
+			
+      var models = modelBuilder.GetEdmModels();
 			app.UseMvc(routeBuilder =>
 			{
-				routeBuilder.MapODataServiceRoute("ODataRoutes", "odata", modelBuilder.GetEdmModel(app.ApplicationServices));
+				routeBuilder.MapVersionedODataRoutes("ODataRoutes", "odata", models);
 			});
 		}
 	}

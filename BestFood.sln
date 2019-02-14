@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFood.Data", "BetFood.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BestFood.Entities", "BestFood.Entities\BestFood.Entities.csproj", "{FCF13F8A-E035-4032-8E1E-C11DC3911A9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestFood.Services", "BestFood.Services\BestFood.Services.csproj", "{16D09A56-CE7D-49DC-879D-9A319FED50D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BestFood.Services", "BestFood.Services\BestFood.Services.csproj", "{16D09A56-CE7D-49DC-879D-9A319FED50D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

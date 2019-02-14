@@ -1,17 +1,17 @@
-﻿using BestFood.DTOs;
-using BestFood.Entities;
+﻿using BestFood.Entities;
 using BestFood.Services.Interfaces;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
+using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.OData;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BestFood.API.Controllers
 {
 	[Produces("application/json")]
+	[ApiVersion("1.0")]
+	[ODataRoutePrefix("Restaurant")]
 	public class RestaurantController : ODataController
 	{
 		private readonly IRestaurantService _restaurantService;
@@ -21,6 +21,7 @@ namespace BestFood.API.Controllers
 			_restaurantService = restaurantService;
 		}
 
+		[ODataRoute]
 		[Produces("application/json")]
 		[ProducesResponseType(typeof(ODataValue<IEnumerable<Restaurant>>), 200)]
 		public IActionResult Get(ODataQueryOptions<Restaurant> options)
